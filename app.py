@@ -217,6 +217,7 @@ class DatabaseManager(tk.Tk):
         self.main_frame.grid(row=1, column=0, padx=10, pady=5, sticky="nsew")
         self.main_frame.grid_columnconfigure(0, weight=1)
         self.main_frame.grid_rowconfigure(0, weight=1)
+        self.main_frame.configure(style='TFrame')  # Apply the custom style
 
     def open_database(self):
         file_path = filedialog.askopenfilename(
