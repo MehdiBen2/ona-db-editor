@@ -97,6 +97,43 @@ class DatabaseManager(tk.Tk):
         # Configure window
         self.title("Database Manager")
         self.geometry("1000x600")
+        self.configure(bg='#a4bd40')  # Set main window background
+        
+        # Configure theme and colors
+        style = ttk.Style()
+        style.theme_use('clam')  # Use clam theme for better color support
+        
+        # Configure styles for all widgets
+        style.configure('TFrame', background='#a4bd40')
+        style.configure('TLabel', background='#a4bd40', foreground='white')
+        style.configure('TButton', 
+                       background='#a4bd40',
+                       foreground='white')
+        style.configure('Treeview', 
+                       background='white',
+                       fieldbackground='white',
+                       foreground='black')
+        style.configure('Treeview.Heading', 
+                       background='#a4bd40',
+                       foreground='white')
+        style.configure('TCombobox', 
+                       background='#a4bd40',
+                       fieldbackground='white',
+                       foreground='black')
+        style.configure('Vertical.TScrollbar', 
+                       background='#a4bd40',
+                       troughcolor='white')
+        style.configure('Horizontal.TScrollbar', 
+                       background='#a4bd40',
+                       troughcolor='white')
+        
+        # Map styles for different states
+        style.map('Treeview',
+                  background=[('selected', '#a4bd40')],
+                  foreground=[('selected', 'white')])
+        style.map('TButton',
+                  background=[('active', '#8ca535')],  # Slightly darker shade for hover
+                  foreground=[('active', 'white')])
         
         # Configure grid layout
         self.grid_columnconfigure(0, weight=1)
@@ -112,19 +149,30 @@ class DatabaseManager(tk.Tk):
         self.create_main_frame()
 
     def create_top_frame(self):
-        # Top frame for controls
+        # Top frame for controls with custom background color
         self.top_frame = ttk.Frame(self)
         self.top_frame.grid(row=0, column=0, padx=10, pady=5, sticky="ew")
         
-        # Buttons
+        # Create a style for the frame
+        style = ttk.Style()
+        style.configure('Header.TFrame', background='#a4bd40')
+        self.top_frame.configure(style='Header.TFrame')
+        
+        # Configure button style with the new color
+        style.configure('Header.TButton', 
+                       background='#a4bd40',
+                       foreground='white')
+        
+        # Buttons with new style
         self.open_btn = ttk.Button(
             self.top_frame,
             text="Open Database",
-            command=self.open_database
+            command=self.open_database,
+            style='Header.TButton'
         )
         self.open_btn.pack(side="left", padx=5)
         
-        # Tables dropdown
+        # Tables dropdown with matching style
         self.tables_var = tk.StringVar(value="No database opened")
         self.tables_dropdown = ttk.Combobox(
             self.top_frame,
@@ -135,30 +183,31 @@ class DatabaseManager(tk.Tk):
         self.tables_dropdown.bind('<<ComboboxSelected>>', 
             lambda e: self.load_table_data(self.tables_var.get()))
         
-        # Save button
+        # Other buttons with matching style
         self.save_btn = ttk.Button(
             self.top_frame,
             text="Save Changes",
             command=self.save_changes,
-            state="disabled"
+            state="disabled",
+            style='Header.TButton'
         )
         self.save_btn.pack(side="left", padx=5)
         
-        # Add row button
         self.add_row_btn = ttk.Button(
             self.top_frame,
             text="Add Row",
             command=self.add_new_row,
-            state="disabled"
+            state="disabled",
+            style='Header.TButton'
         )
         self.add_row_btn.pack(side="left", padx=5)
         
-        # Add delete button
         self.delete_btn = ttk.Button(
             self.top_frame,
             text="Delete Row",
             command=self.delete_selected_row,
-            state="disabled"
+            state="disabled",
+            style='Header.TButton'
         )
         self.delete_btn.pack(side="left", padx=5)
 
